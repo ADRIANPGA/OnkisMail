@@ -1,21 +1,9 @@
-from user import User
 import numpy as np
+from colorama import Fore, Style
 
-def hello():
-    print("Bienvenido al sistema criptografico de clave privada. Hecho con amor, el grupo 09")
+import utils.utils as u
+from user import User
 
-
-def startSession():
-    #user = input("Introduce el usuario: ")
-    #password = input("Introduce la contraseña: ")
-    user = "LAURAAAAAAAAA"
-    password = "VIVA HILL"
-    # TODO validacion
-    print(user, password)
-    return [user, password]
-
-def listToMatrix(list):
-    return np.array(list).reshape(2, 2)
 
 def mapUsers(usersPath):
     users = []
@@ -30,8 +18,64 @@ def mapUsers(usersPath):
                 file.close()
                 users.append(User(text[0], text[1]))
             index += 1
-        except FileNotFoundError as e:
+        except FileNotFoundError:
             mapped = True
     return users
 
 
+def startSession(users):
+    user = None
+    while True:
+        valid = False
+        userName = input('Introduce el usuario: ')
+        password = input('Introduce la contraseña: ')
+        for i in range(0, len(users)):
+            user = users[i]
+            if userName == user.name and password == user.password:
+                valid = True
+                break
+        if valid:
+            break
+        print('Usuario y/o contraseña incorrectos.\n')
+
+    u.debug('Se loguea el usuario ' + userName + ' con contraseña ' + password)
+    print('Bienvenido de nuevo ' + user.getFullName() + '.\n')
+    return user
+
+
+def displayMenu():
+    while True:
+        print('Menu de opciones:')
+        print('\t[1] - Enviar un mensaje.')
+        print('\t[2] - Leer tu bandeja de entrada.')
+        print('\t[3] - Cerrar sesión.')
+        print('\t[4] - Salir de la aplicación (Se cerrará la sesión).')
+        chosen = input('Seleccione una opción [1-4]: ')
+        if chosen in ['1', '2', '3', '4']:
+            break
+        print(Fore.RED + 'Introduzca una opcion entre 1 y 4\n' + Style.RESET_ALL)
+
+    return int(chosen)
+
+
+def listToMatrix(listToConvert):
+    return np.array(listToConvert).reshape(2, 2)
+
+
+def getMessages(usersPath, userIndex):
+    messages = u.getMessagesFromUser(usersPath + str(userIndex))
+
+    decryptedMessages = []
+    for element in messages:
+        print(element)
+
+        # TODO la parte de desencriptar cada elemento de messages
+
+        # TODO una vez esten desencriptados crear objeto message y añadirlo a la lista
+
+    return messages
+    # return decryptedMessages
+
+
+def cleanInbox(usersPath, userIndex):
+    u.clearMessagesFromUser(usersPath + str(userIndex))
