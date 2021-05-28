@@ -18,8 +18,12 @@ hillKey = f.listToMatrix(hillKey.split())
 afinKey = u.readTextFromFile("./resources/afinKey")
 afinKey = afinKey.split(",")
 afinKeyMatrix = f.listToMatrix(list(afinKey[0].split()))
-afinKey = [afinKeyMatrix, list(afinKey[1].split())]
+afinne
+affineKey = [afinKeyMatrix, list(afinKey[1].split())]
 
+print(affineKey)
+print(affineKey[0])
+print(affineKey[1])
 users = f.mapUsers(USERS_PATH)
 loggedUser = f.startSession(users)
 
@@ -31,10 +35,33 @@ while True:
         for element in users:
             usersNames.append(element.name)
         print('\nUsuarios en la red:', usersNames)
-        receiverName = input('¿A quién desea enviarle el mensaje?: ')
+        while True:
+            receiverName = input('¿A quién desea enviarle el mensaje?: ')
+            if receiverName in usersNames:
+                break
+            print(Fore.RED + 'El usuario no se encuentra en la red.' + Style.RESET_ALL)
 
-        print(Fore.RED + 'Pues no' + Style.RESET_ALL)
-        # TODO toda la logica para enviar el mensaje
+        receiver = None
+        for element in users:
+            if receiverName == element.name:
+                receiver = element
+
+        while True:
+            message = input('Introduce el mensaje a enviar: ')
+            illegalMessage = False
+            for element in message:
+                if element not in alphabet:
+                    illegalMessage = True
+                    break
+
+            if not illegalMessage:
+                break
+
+            print(Fore.RED + 'El mensaje contiene caracteres que no están en el alfabeto.' + Style.RESET_ALL)
+            print('Alfabeto: ' + alphabet + '\n')
+
+        f.sendMessage(message, receiver, USERS_PATH, users.index(receiver) + 1, affineKey, hillKey, alphabet)
+        print(Fore.GREEN + '¡Mensaje enviado correctamente a ' + receiverName + '!\n' + Style.RESET_ALL)
     elif option == 2:
         # BANDEJA DE ENTRADA
         print(Fore.GREEN + '-* Bandeja de entrada de ' + loggedUser.getFullName() + ' *-' + Style.RESET_ALL)
