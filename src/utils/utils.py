@@ -6,6 +6,7 @@ from sympy import mod_inverse
 # 1 -> Si
 debugMode = 0
 
+
 def readTextFromFile(path):
     # Funcion encargada de obtener un texto de un fichero.
     file = open(path, 'r', encoding='utf8')
@@ -64,7 +65,8 @@ def matrixDeterminant(matrix, mod):
 
 
 def inverseVector(matrixInverse, vector, mod):
-    return np.matmul(-vector, matrixInverse) % mod
+    return np.matmul(vectorNegative(vector, mod), matrixInverse) % mod
+
 
 def vectorNegative(vector, mod):
     vectorNeg = []

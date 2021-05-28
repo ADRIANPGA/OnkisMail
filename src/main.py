@@ -18,8 +18,7 @@ hillKey = f.listToMatrix(hillKey.split())
 afinKey = u.readTextFromFile("./resources/afinKey")
 afinKey = afinKey.split(",")
 afinKeyMatrix = f.listToMatrix(list(afinKey[0].split()))
-afinne
-affineKey = [afinKeyMatrix, list(afinKey[1].split())]
+affineKey = [afinKeyMatrix, f.convertToInt(afinKey[1].split())]
 
 print(affineKey)
 print(affineKey[0])

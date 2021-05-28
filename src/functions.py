@@ -1,6 +1,8 @@
 import numpy as np
 from colorama import Fore, Style
 
+import affine as a
+import hill as h
 import utils.utils as u
 from user import User
 
@@ -53,7 +55,7 @@ def displayMenu():
         chosen = input('Seleccione una opción [1-4]: ')
         if chosen in ['1', '2', '3', '4']:
             break
-        print(Fore.RED + 'Introduzca una opcion entre 1 y 4\n' + Style.RESET_ALL)
+        print(Fore.RED + 'Introduzca una opción entre 1 y 4\n' + Style.RESET_ALL)
 
     return int(chosen)
 
@@ -75,7 +77,14 @@ def decryptAffine(msg, affineDecryptKey, alf):
 
 
 def listToMatrix(listToConvert):
-    return np.array(listToConvert).reshape(2, 2)
+    aux = np.array(listToConvert).reshape(2, 2)
+    return aux.astype(np.int)
+
+
+def convertToInt(listToConvert):
+    for i in range(len(listToConvert)):
+        listToConvert[i] = int(listToConvert[i])
+    return listToConvert
 
 
 def getMessages(usersPath, userIndex):

@@ -1,16 +1,32 @@
 import numpy as np
 
+import utils.utils as u
+
 
 ##
-# HILL CIPHER
+# HILL ENCRYPTION
 ##
+def encryptionHill(msg, hillKey, alphabet):
+    msgInNumbers = u.msgToNumbers(alphabet, msg)
+    matrixToEncrypt = buildMatrixA(msgInNumbers)
+    matrixEncrypted = multiplyMatrix(matrixToEncrypt, hillKey, len(alphabet))
+    msgEncrypted = u.numbersToMsg(alphabet, matrixEncrypted)
 
-# Hill Cipher Code
-def encryptionHill(msg, hillKey):
-    msgToEncrypt = buildMatrixToEncrypt(msg)
+    return msgEncrypted
 
 
-def buildMatrixToEncrypt(msg):
-    matrix = np.empty(len(msg) % 2, 2)
-    for i in msg:
-        print()
+def decryptionHill(msg, hillDecryptKey, alphabet):
+    print(hillDecryptKey)
+    msgInNumbers = u.msgToNumbers(alphabet, msg)
+    matrixToDecrypt = buildMatrixA(msgInNumbers)
+    matrixDecrypted = multiplyMatrix(matrixToDecrypt, hillDecryptKey, len(alphabet))
+    msgDecrypted = u.numbersToMsg(alphabet, matrixDecrypted)
+    return msgDecrypted
+
+
+def buildMatrixA(msg):
+    return np.array(msg).reshape(int(len(msg) / 2), 2)
+
+
+def multiplyMatrix(matrix, key, mod):
+    return np.matmul(matrix, key) % mod
