@@ -107,13 +107,10 @@ def cleanInbox(usersPath, userIndex):
 
 
 def sendMessage(message, receiver, usersPath, userIndex, affineKey, hillKey, alphabet):
-    # TODO Formar formato mensaje
     message = u.formatMessage(message, receiver.name)
-    print(message)
-    print(affineKey[0])
+    print('Mensaje: ' + message)
     message = encryptAffine(message, affineKey, alphabet)
-    print(message)
+    print('Cifrado ya por afin: ' + message)
     message = encryptHill(message, hillKey, alphabet)
-    print(message)
-    # TODO enviar el mensaje
-    # u.deliverMessage(message, usersPath + str(userIndex))
+    print('Cifrado ya por hill: ' + message)
+    u.deliverMessage(message, usersPath + str(userIndex))

@@ -26,6 +26,7 @@ print(affineKey[1])
 users = f.mapUsers(USERS_PATH)
 loggedUser = f.startSession(users)
 
+# MENU DE OPCIONES
 while True:
     option = f.displayMenu()
     if option == 1:
@@ -36,9 +37,25 @@ while True:
         print('\nUsuarios en la red:', usersNames)
         while True:
             receiverName = input('¿A quién desea enviarle el mensaje?: ')
-            if receiverName in usersNames:
+            validReceiver = False
+            selfTry = False
+            i = 0
+            while i < len(users) and not validReceiver and not selfTry:
+                if receiverName == users[i].name:
+                    if users[i].name == loggedUser.name:
+                        selfTry = True
+                        break
+                    else:
+                        validReceiver = True
+                i += 1
+
+            if validReceiver:
                 break
-            print(Fore.RED + 'El usuario no se encuentra en la red.' + Style.RESET_ALL)
+
+            if selfTry:
+                print(Fore.RED + '¡No te puedes enviar un mensaje a ti mismo!' + Style.RESET_ALL)
+            else:
+                print(Fore.RED + 'El usuario no se encuentra en la red.' + Style.RESET_ALL)
 
         receiver = None
         for element in users:
@@ -92,5 +109,5 @@ while True:
         loggedUser = f.startSession(users)
     elif option == 4:
         # SALIR DE LA APLICACION
-        print(Fore.GREEN + '¡Esperamos verle pronto ' + loggedUser.name + '! Cerrando...')
+        print(Fore.GREEN + '¡Esperamos verle pronto ' + loggedUser.name + '!\nCerrando...')
         sys.exit()

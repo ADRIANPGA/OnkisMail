@@ -27,6 +27,7 @@ def clearMessagesFromUser(userPath):
 
 
 def deliverMessage(message, userPath):
+    print('Se llega a deliver')
     file = open(userPath, 'a', encoding='utf8')
     file.write('\n\"' + message + '\"')
     file.close()
