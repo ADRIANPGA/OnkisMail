@@ -22,6 +22,7 @@ def mapUsers(usersPath):
             index += 1
         except FileNotFoundError:
             mapped = True
+    print(len(users))
     return users
 
 
@@ -107,6 +108,7 @@ def cleanInbox(usersPath, userIndex):
 
 
 def sendMessage(message, receiver, usersPath, userIndex, affineKey, hillKey, alphabet):
+    #TODO no es el nombre de quien lo envia?
     message = u.formatMessage(message, receiver.name)
     print('Mensaje: ' + message)
     message = encryptAffine(message, affineKey, alphabet)

@@ -11,12 +11,10 @@ def encryptionHill(msg, hillKey, alphabet):
     matrixToEncrypt = buildMatrixA(msgInNumbers)
     matrixEncrypted = multiplyMatrix(matrixToEncrypt, hillKey, len(alphabet))
     msgEncrypted = u.numbersToMsg(alphabet, matrixEncrypted)
-
     return msgEncrypted
 
 
 def decryptionHill(msg, hillDecryptKey, alphabet):
-    print(hillDecryptKey)
     msgInNumbers = u.msgToNumbers(alphabet, msg)
     matrixToDecrypt = buildMatrixA(msgInNumbers)
     matrixDecrypted = multiplyMatrix(matrixToDecrypt, hillDecryptKey, len(alphabet))

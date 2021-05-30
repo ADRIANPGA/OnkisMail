@@ -9,7 +9,6 @@ def encryptAffine(msg, affineKey, alf):
     matrixToEncrypt = buildMatrixToEncrypt(msgPositionNumbers)
     matrixEncrypted = buildKeyMatrix(matrixToEncrypt, affineKey, len(alf))
     finalMsgEncrypted = u.numbersToMsg(alf, matrixEncrypted)
-
     return finalMsgEncrypted
 
 
@@ -19,7 +18,6 @@ def decryptAffine(msg, afinDecryptKey, alf):
     matrixToDecrypt = buildMatrixToEncrypt(msgPositionNumbers)
     matrixDecrypted = buildKeyMatrix(matrixToDecrypt, afinDecryptKey, len(alf))
     finalMsg = u.numbersToMsg(alf, matrixDecrypted)
-
     return finalMsg
 
 
@@ -28,8 +26,5 @@ def buildMatrixToEncrypt(msg):
 
 
 def buildKeyMatrix(matrixA, afinKey, mod):
-    print(matrixA)
-    print(" ")
-    print(afinKey[0])
     matrixAux = np.matmul(matrixA, afinKey[0])
     return np.add(matrixAux, afinKey[1]) % mod
