@@ -9,25 +9,22 @@ USERS_PATH = '../users/user'
 print(Fore.GREEN + Style.BRIGHT + '\nBienvenido al sistema criptográfico ganso de clave privada, hecho con amor por el'
                                   ' grupo 9.\n' + Style.RESET_ALL)
 
-alphabet = u.readTextFromFile("../resources/alphabet")
-mod = len(alphabet)
-
-hillKey = u.readTextFromFile("../resources/hillKey")
-hillKey = f.listToMatrix(hillKey.split())
-
-afinKey = u.readTextFromFile("../resources/afinKey")
-afinKey = afinKey.split(",")
-afinKeyMatrix = f.listToMatrix(list(afinKey[0].split()))
-affineKey = [afinKeyMatrix, f.convertToInt(afinKey[1].split())]
-
-print(affineKey)
-print(affineKey[0])
-print(affineKey[1])
 users = f.mapUsers(USERS_PATH)
 loggedUser = f.startSession(users)
 
 # MENU DE OPCIONES
 while True:
+    alphabet = u.readTextFromFile("../resources/alphabet")
+    mod = len(alphabet)
+
+    hillKey = u.readTextFromFile("../resources/hillKey")
+    hillKey = f.listToMatrix(hillKey.split())
+
+    afinKey = u.readTextFromFile("../resources/afinKey")
+    afinKey = afinKey.split(",")
+    afinKeyMatrix = f.listToMatrix(list(afinKey[0].split()))
+    affineKey = [list(afinKeyMatrix), f.convertToInt(afinKey[1].split())]
+
     option = f.displayMenu()
     if option == 1:
         # ENVIAR UN MENSAJE.
@@ -82,9 +79,9 @@ while True:
         # BANDEJA DE ENTRADA
         print(Fore.GREEN + '-* Bandeja de entrada de ' + loggedUser.getFullName() + ' *-' + Style.RESET_ALL)
 
-        messages = f.getMessages(USERS_PATH, users.index(loggedUser) + 1)
+        messages = f.getMessages(USERS_PATH, users.index(loggedUser) + 1, affineKey, hillKey, alphabet)
         for message in messages:
-            print(message)
+            print("Otro mensaje")
             # print('[' + message.date + '] ' + message.sender + ': ' + message.message)
 
         print(Fore.GREEN + '-* FIN *-\n' + Style.RESET_ALL)

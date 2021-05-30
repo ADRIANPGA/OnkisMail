@@ -87,7 +87,7 @@ def formatMessage(msg, name):
     now = datetime.now()
     header = formatDatePart(now.day) + formatDatePart(now.month) + \
              str(now.year) + formatDatePart(now.hour) + formatDatePart(now.minute)
-    print(header + name + msg)
+    #print(header + name + msg)
     return header + name + '--' + msg
 
 

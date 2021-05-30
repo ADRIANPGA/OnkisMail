@@ -22,7 +22,6 @@ def mapUsers(usersPath):
             index += 1
         except FileNotFoundError:
             mapped = True
-    print(len(users))
     return users
 
 
@@ -76,6 +75,14 @@ def encryptAffine(msg, affineKey, alf):
 def decryptAffine(msg, affineDecryptKey, alf):
     return a.decryptAffine(msg, affineDecryptKey, alf)
 
+def keyDecryptAffine(affineKey, mod):
+    decryptKey = affineKey
+    decryptKey[0] = u.inverseMatrix(affineKey[0], mod)
+    decryptKey[1] = u.inverseVector(affineKey[0], affineKey[1], mod)
+    return decryptKey
+
+def keyDecryptHill(hillKey, mod):
+    return u.inverseMatrix(hillKey, mod)
 
 def listToMatrix(listToConvert):
     aux = np.array(listToConvert).reshape(2, 2)
@@ -88,15 +95,18 @@ def convertToInt(listToConvert):
     return listToConvert
 
 
-def getMessages(usersPath, userIndex):
+def getMessages(usersPath, userIndex, affineKey, hillKey, alphabet):
     messages = u.getMessagesFromUser(usersPath + str(userIndex))
-
+    keyAffineDecrypt = keyDecryptAffine(affineKey, len(alphabet))
+    keyHillDecrypt = keyDecryptHill(hillKey, len(alphabet))
     decryptedMessages = []
     for element in messages:
-        print(element)
-
         # TODO la parte de desencriptar cada elemento de messages
+        message = decryptHill(element, keyHillDecrypt, alphabet)
+        print(message)
+        message = decryptAffine(message, keyAffineDecrypt, alphabet)
 
+        print(message)
         # TODO una vez esten desencriptados crear objeto message y añadirlo a la lista
 
     return messages
@@ -108,11 +118,11 @@ def cleanInbox(usersPath, userIndex):
 
 
 def sendMessage(message, receiver, usersPath, userIndex, affineKey, hillKey, alphabet):
-    #TODO no es el nombre de quien lo envia?
+    #TODO no es el nombre de quien lo envia?2
     message = u.formatMessage(message, receiver.name)
-    print('Mensaje: ' + message)
+    u.debug('Mensaje: ' + message)
     message = encryptAffine(message, affineKey, alphabet)
-    print('Cifrado ya por afin: ' + message)
+    u.debug('Cifrado ya por afin: ' + message)
     message = encryptHill(message, hillKey, alphabet)
-    print('Cifrado ya por hill: ' + message)
+    u.debug('Cifrado ya por hill: ' + message)
     u.deliverMessage(message, usersPath + str(userIndex))
