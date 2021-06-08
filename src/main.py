@@ -73,7 +73,7 @@ while True:
             print(Fore.RED + 'El mensaje contiene caracteres que no están en el alfabeto.' + Style.RESET_ALL)
             print('Alfabeto: ' + alphabet + '\n')
 
-        f.sendMessage(message, receiver, USERS_PATH, users.index(receiver) + 1, affineKey, hillKey, alphabet)
+        f.sendMessage(message, loggedUser, USERS_PATH, users.index(receiver) + 1, affineKey, hillKey, alphabet)
         print(Fore.GREEN + '¡Mensaje enviado correctamente a ' + receiverName + '!\n' + Style.RESET_ALL)
     elif option == 2:
         # BANDEJA DE ENTRADA
