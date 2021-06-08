@@ -5,7 +5,7 @@ from colorama import Fore, Style
 import functions as f
 import utils.utils as u
 
-USERS_PATH = './users/user'
+USERS_PATH = '../users/user'
 print(Fore.GREEN + Style.BRIGHT + '\nBienvenido al sistema criptográfico ganso de clave privada, hecho con amor por el'
                                   ' grupo 9.\n' + Style.RESET_ALL)
 
@@ -14,13 +14,13 @@ loggedUser = f.startSession(users)
 
 # MENU DE OPCIONES
 while True:
-    alphabet = u.readTextFromFile("./resources/alphabet")
+    alphabet = u.readTextFromFile("../resources/alphabet")
     mod = len(alphabet)
 
-    hillKey = u.readTextFromFile("./resources/hillKey")
+    hillKey = u.readTextFromFile("../resources/hillKey")
     hillKey = f.listToMatrix(hillKey.split())
 
-    afinKey = u.readTextFromFile("./resources/afinKey")
+    afinKey = u.readTextFromFile("../resources/afinKey")
     afinKey = afinKey.split(",")
     afinKeyMatrix = f.listToMatrix(list(afinKey[0].split()))
     affineKey = [list(afinKeyMatrix), f.convertToInt(afinKey[1].split())]
@@ -81,8 +81,8 @@ while True:
 
         messages = f.getMessages(USERS_PATH, users.index(loggedUser) + 1, affineKey, hillKey, alphabet)
         for message in messages:
-            print("Otro mensaje")
-            # print('[' + message.date + '] ' + message.sender + ': ' + message.message)
+            #print("Otro mensaje")
+            print('[' + message.date + '] ' + message.sender + ': ' + message.message)
 
         print(Fore.GREEN + '-* FIN *-\n' + Style.RESET_ALL)
 

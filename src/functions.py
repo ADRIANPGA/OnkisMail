@@ -107,14 +107,13 @@ def getMessages(usersPath, userIndex, affineKey, hillKey, alphabet):
     for element in messages:
         # TODO la parte de desencriptar cada elemento de messages
         element = decryptHill(element, keyHillDecrypt, alphabet)
-        print(element)
+        #print(element)
         element = decryptAffine(element, keyAffineDecrypt, alphabet)
-        print(element)
+        #print(element)
 
         # TODO una vez esten desencriptados crear objeto message y añadirlo a la lista
-        messageObject = Message(element[:10], element[11:element.index('-')], element[element.index('-'):])
-        print(
-            'Objeto mensaje:\nFecha: ' + messageObject.date + '\nUsername: ' + messageObject.sender + '\nMensaje en si: ' + messageObject.message)
+        messageObject = Message(element[:12], element[12:element.index('-')], element[element.index('-')+2:])
+        #print('Objeto mensaje:\nFecha: ' + messageObject.date + '\nUsername: ' + messageObject.sender + '\nMensaje en si: ' + messageObject.message)
         decryptedMessages.append(messageObject)
 
     return decryptedMessages
