@@ -4,6 +4,7 @@ from colorama import Fore, Style
 import affine as a
 import hill as h
 import utils.utils as u
+from message import Message
 from user import User
 
 
@@ -41,7 +42,7 @@ def startSession(users):
         print('Usuario y/o contraseña incorrectos.\n')
 
     u.debug('Se loguea el usuario ' + userName + ' con contraseña ' + password)
-    print('Bienvenido de nuevo ' + user.getFullName() + '.\n')
+    print('\nBienvenido de nuevo ' + user.getFullName() + '.')
     return user
 
 
@@ -75,14 +76,17 @@ def encryptAffine(msg, affineKey, alf):
 def decryptAffine(msg, affineDecryptKey, alf):
     return a.decryptAffine(msg, affineDecryptKey, alf)
 
+
 def keyDecryptAffine(affineKey, mod):
     decryptKey = affineKey
     decryptKey[0] = u.inverseMatrix(affineKey[0], mod)
     decryptKey[1] = u.inverseVector(affineKey[0], affineKey[1], mod)
     return decryptKey
 
+
 def keyDecryptHill(hillKey, mod):
     return u.inverseMatrix(hillKey, mod)
+
 
 def listToMatrix(listToConvert):
     aux = np.array(listToConvert).reshape(2, 2)
@@ -102,14 +106,18 @@ def getMessages(usersPath, userIndex, affineKey, hillKey, alphabet):
     decryptedMessages = []
     for element in messages:
         # TODO la parte de desencriptar cada elemento de messages
-        message = decryptHill(element, keyHillDecrypt, alphabet)
-        print(message)
-        message = decryptAffine(message, keyAffineDecrypt, alphabet)
+        element = decryptHill(element, keyHillDecrypt, alphabet)
+        print(element)
+        element = decryptAffine(element, keyAffineDecrypt, alphabet)
+        print(element)
 
-        print(message)
         # TODO una vez esten desencriptados crear objeto message y añadirlo a la lista
+        messageObject = Message(element[:10], element[11:element.index('-')], element[element.index('-'):])
+        print(
+            'Objeto mensaje:\nFecha: ' + messageObject.date + '\nUsername: ' + messageObject.sender + '\nMensaje en si: ' + messageObject.message)
+        decryptedMessages.append(messageObject)
 
-    return messages
+    return decryptedMessages
     # return decryptedMessages
 
 
@@ -117,9 +125,8 @@ def cleanInbox(usersPath, userIndex):
     u.clearMessagesFromUser(usersPath + str(userIndex))
 
 
-def sendMessage(message, receiver, usersPath, userIndex, affineKey, hillKey, alphabet):
-    #TODO no es el nombre de quien lo envia?2
-    message = u.formatMessage(message, receiver.name)
+def sendMessage(message, sender, usersPath, userIndex, affineKey, hillKey, alphabet):
+    message = u.formatMessage(message, sender.name)
     u.debug('Mensaje: ' + message)
     message = encryptAffine(message, affineKey, alphabet)
     u.debug('Cifrado ya por afin: ' + message)
